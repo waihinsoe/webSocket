@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #849197;
+      }
+
+      #app {
+        width: 100%;
+        max-width: 500px;
+        height: 100vh;
+        margin: 0 auto;
+        background-color: #f6f1f1;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+
+      #title {
+        background-color: #146c94;
+        color: #f6f1f1;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 5px 5px 0 0;
+      }
+      #chat-window {
+        width: 100%;
+        height: 80%;
+        background-color: #afd3e2;
+      }
+
+      input,
+      button {
+        margin-bottom: 2px;
+        padding: 10px;
+        border-radius: 2px;
+        border: none;
+        background-color: #19a7ce;
+        color: #f6f1f1;
+      }
+      input,
+      button:focus {
+        outline-color: #19a7ce;
+      }
+      ::placeholder {
+        /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #f6f1f1;
+        opacity: 1; /* Firefox */
+      }
+      button {
+        border: none;
+        background-color: #146c94;
+        color: #f6f1f1;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h2 id="title">Chat App</h2>
+      <div id="chat-window">
+        <div id="output"></div>
+        <div id="feedback"></div>
+      </div>
+      <input type="text" placeholder="name" id="name" />
+      <input type="text" placeholder="message" id="message" />
+      <button>Send</button>
+    </div>
+    <script>
+      const socket = io("http://localhost:4000");
+    </script>
+  </body>
+</html>
