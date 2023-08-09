@@ -42,6 +42,30 @@
         background-color: #afd3e2;
       }
 
+      #output {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 10px;
+      }
+
+      #output p {
+        border-bottom: 1px solid #f6f1f1;
+        padding: 5px 0;
+      }
+
+      #output strong {
+        color: #146c94;
+      }
+
+      #feedback {
+        padding: 10px;
+      }
+
+      #feedback p {
+        color: #53778a;
+      }
+
       input,
       button {
         margin-bottom: 2px;
@@ -75,12 +99,43 @@
         <div id="output"></div>
         <div id="feedback"></div>
       </div>
-      <input type="text" placeholder="name" id="name" />
-      <input type="text" placeholder="message" id="message" />
-      <button>Send</button>
+      <input type="text" placeholder="Name" id="name" />
+      <input type="text" placeholder="Message" id="message" />
+      <button id="send">Send</button>
     </div>
     <script>
       const socket = io("http://localhost:4000");
+      const output = document.querySelector("#output");
+      const feedback = document.querySelector("#feedback");
+      const name = document.querySelector("#name");
+      const message = document.querySelector("#message");
+      const send = document.querySelector("#send");
+      send.addEventListener("click", () => {
+        const data = {
+          name: name.value,
+          message: message.value,
+        };
+        socket.emit("chat", data);
+      });
+
+      message.addEventListener("keypress", () => {
+        socket.emit("typing", name.value);
+      });
+
+      //listen events
+      socket.on("chat", (data) => {
+        output.innerHTML += `<p><strong>${data.name}</strong> : ${data.message}</p>`;
+        name.value = "";
+        message.value = "";
+        feedback.innerHTML = "";
+      });
+
+      socket.on("typing", (name) => {
+        feedback.innerHTML = `<p><em>${name}</em> is typing ...</p>`;
+        setTimeout(() => {
+          feedback.innerHTML = "";
+        }, 3000);
+      });
     </script>
   </body>
 </html>

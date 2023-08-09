@@ -16,5 +16,11 @@ app.get("/", (req, res) => {
 /**__socket setup__**/
 const io = socket(server);
 io.on("connection", (socket) => {
-  console.log("socket connection connected", socket.id);
+  socket.on("chat", (data) => {
+    io.sockets.emit("chat", data);
+  });
+
+  socket.on("typing", (name) => {
+    socket.broadcast.emit("typing", name);
+  });
 });
